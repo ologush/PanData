@@ -4,36 +4,30 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://test_user:wordpass@cluster0-hskxu.azure.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 //const client = new MongoClient(uri , { useNewUrlParser: true});
+const assert = require('assert');
 
 var cors = require('cors');
 router.use(cors());
 
+router.post('/:id', function(req, res){
 
-router.post('/', function(req, res) {
-
-  console.log("POST RECIEVED");
-
+    console.log("Requesting the information for patient" + id);
     client.connect(err => {
         const collection = client.db("test").collection("devices");
-        console.log("POST RECIEVED");
+        const data = collection.find({identifier:id});
 
-        //const data = JSON.stringify(req.body);
-        const data = req.body;
 
-        collection.insertOne(data);
+        res.json(data);
+
+        
+        
+
+        
         // perform actions on the collection object
         client.close();
       });
 
       res.send('attempted to send data to db');
-
-
-
-});
-
-router.get('/', function(req, res) {
-  console.log("GET RECIEVED");
-  res.send("server recieved the ger request");
 
 });
 

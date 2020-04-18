@@ -24,7 +24,7 @@ class FormContainer extends Component {
 
         this.state = {
             newUser: {
-                
+                                
                 identifier: '',
                 location: '',
                 hospital: '',
