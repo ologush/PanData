@@ -9,27 +9,39 @@ var cors = require('cors');
 router.use(cors());
 
 
-router.post('/', function(req, res) {
 
-  console.log("POST RECIEVED");
+router.post('/', async function(req, res) {
 
-    client.connect(err => {
-        const collection = client.db("test").collection("devices");
-        console.log("POST RECIEVED");
-
-        //const data = JSON.stringify(req.body);
-        const data = req.body;
-
-        collection.insertOne(data);
-        // perform actions on the collection object
-        client.close();
+  console.log("Post Recieved");
+  try {
+    const testClient = await MongoClient.connect(
+      uri,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
       });
 
-      res.send('attempted to send data to db');
+      const data = req.body;
+  
+      const testDB = testClient.db("test");
+      const collection = testDB.collection("devices");
 
+      collection.insertOne(data)
+      .then(result => {
+        console.log("Inserted into the database");
+      })
+      .catch(err => {
+        console.log(err);
 
+      })
+
+  } catch (e) {
+    console.log(e);
+  }
 
 });
+
+
 
 router.get('/', function(req, res) {
   console.log("GET RECIEVED");

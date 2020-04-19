@@ -14,7 +14,8 @@ router.post('/:id', function(req, res){
     console.log("Requesting the information for patient" + id);
     client.connect(err => {
         const collection = client.db("test").collection("devices");
-        const data = collection.find({identifier:id});
+        //May need to use await, and if so in an async function
+        const data = collection.find({ identifier: id });
 
 
         res.json(data);
