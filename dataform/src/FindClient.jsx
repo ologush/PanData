@@ -10,7 +10,19 @@ class FindClient extends Component {
 
         this.state = {
             identifierInput: '',
-            dataToDisplay: ''
+            dataToDisplay: '',
+            //For now will have to make sure the data structure stored here is identical to the one stored on the database, and in FormContainer
+            patient: {
+                _id: '',
+                identifier: '',
+                location: '',
+                hospital: '',
+                symptoms: '',
+                date: '',
+                time: '',
+                gender: ''
+
+            }
         }
         
         this.handleInput = this.handleInput.bind(this);
@@ -39,7 +51,7 @@ class FindClient extends Component {
                 const dataReturned = JSON.stringify(data);
                 console.log(dataReturned);
                 this.setState({
-                    dataToDisplay: dataReturned
+                    patient: data
                 });
 
             })
@@ -73,7 +85,8 @@ class FindClient extends Component {
     }
 
     render() {
-        const element = this.state.dataToDisplay;
+        //const element = this.state.dataToDisplay;
+        const data = this.state.patient;
 
         return(
             <form className="container" onSubmit={this.handleFormSubmit}>
@@ -93,7 +106,15 @@ class FindClient extends Component {
                 <Button title={'Clear'}
                         action={this.handlePageClear}
                 />
-                <h1>{element}</h1>
+               
+                <h1>ID: {data.identifier}</h1>
+                <h1>Location: {data.location}</h1>
+                <h1>Hospital: {data.hospital}</h1>
+                <h1>Symptoms: {data.symptoms}</h1>
+                <h1>Date: {data.date}</h1>
+                <h1>Time: {data.time}</h1>
+                <h1>Gender: {data.gender}</h1>
+
             </form>
         );
     }
