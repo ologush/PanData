@@ -31,7 +31,12 @@ class FormContainer extends Component {
                 symptoms: '',
                 date: '',
                 time: '',
-                gender: ''
+                gender: '',
+
+                geolocation: {
+                    latitude: '',
+                    longitude: ''
+                }
             },
 
             genderOptions: ['Male', 'Female']
@@ -42,6 +47,14 @@ class FormContainer extends Component {
     }
 
     handleFormSubmit(e) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        this.state.date = date;
+        //console.log(date);
+        this.state.time = time;
+        //console.log(time);
+
         e.preventDefault();
         let userData = JSON.stringify(this.state.newUser);
         console.log("form submitted");
@@ -134,7 +147,11 @@ class FormContainer extends Component {
     }
 
 
+    /*getLocation() {
+        if (navigator.geolocation) {
 
+        }
+    } */
     
 
     render() {
