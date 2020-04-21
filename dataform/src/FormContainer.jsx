@@ -48,15 +48,24 @@ class FormContainer extends Component {
 
     handleFormSubmit(e) {
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        this.state.date = date;
-        //console.log(date);
-        this.state.time = time;
-        //console.log(time);
+        const currentDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const currentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const newState = "current date/time";
 
+        const dataToSubmit = {
+            identifier: this.state.newUser.identifier,
+            location: this.state.newUser.location,
+            hostpital: this.state.newUser.hospital,
+            symptoms: this.state.newUser.symptoms,
+            date: currentDate,
+            time: currentTime,
+            gender: this.state.newUser.gender
+
+        }
+        
         e.preventDefault();
-        let userData = JSON.stringify(this.state.newUser);
+
+        let userData = JSON.stringify(dataToSubmit);
         console.log("form submitted");
 
         const param = {
@@ -70,6 +79,9 @@ class FormContainer extends Component {
         fetch(url,param)
         .then(res=>{console.log(res)})
         .catch(error=>{console.log(error)})
+        
+        
+        
 
         // const options = {
         //     method: "POST",
