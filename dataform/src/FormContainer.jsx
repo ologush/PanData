@@ -19,8 +19,17 @@ const url = "http://localhost:3001/senddata"
 
 
 class FormContainer extends Component {
+    
     constructor(props) {
         super(props);
+
+        
+        navigator.geolocation.getCurrentPosition(position => {
+            latitude = JSON.stringify(position.coords.latitude);
+            longitude = JSON.stringify(position.coords.longitude);
+
+
+        }, {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
 
         this.state = {
             newUser: {
@@ -32,11 +41,7 @@ class FormContainer extends Component {
                 date: '',
                 time: '',
                 gender: '',
-
-                geolocation: {
-                    latitude: '',
-                    longitude: ''
-                }
+                
             },
 
             genderOptions: ['Male', 'Female']
@@ -59,8 +64,9 @@ class FormContainer extends Component {
             symptoms: this.state.newUser.symptoms,
             date: currentDate,
             time: currentTime,
-            gender: this.state.newUser.gender
-
+            gender: this.state.newUser.gender,
+            latitude: latitude,
+            longitude: longitude
         }
         
         e.preventDefault();
