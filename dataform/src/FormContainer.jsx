@@ -34,7 +34,7 @@ class FormContainer extends Component {
                 time: '',
                 gender: ''
             },
-
+            
             genderOptions: ['Male', 'Female']
         }
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
