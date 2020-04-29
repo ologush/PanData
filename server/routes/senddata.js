@@ -4,7 +4,7 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://test_user:wordpass@cluster0-hskxu.azure.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 //const client = new MongoClient(uri , { useNewUrlParser: true});
-
+const fetch = require('node-fetch');
 var cors = require('cors');
 router.use(cors());
 
@@ -29,9 +29,11 @@ router.post('/', async function(req, res) {
 
       //This will have to be changed to match the data schema
       const lat = data.latitude;
+
       const long = data.longitude;
       
       const connectionUri = mapsApiUri + lat + "," + long + remainingUri;
+      //console.log(connectionUri);
 
       const param = {
         headers: {
@@ -44,10 +46,8 @@ router.post('/', async function(req, res) {
       .then(res => {
         res.json()
         .then(data => {
-          if (data.status == "OK")
-          {
-            console.log(data.formatted_address);
-          }
+          console.log("no error");
+          console.log(data.results);
         })
         .catch(err => {
           console.log(err);
