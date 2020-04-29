@@ -1,28 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
-const CheckBox = (props) => {
-	return( <div className="form-group">
-    <label for={props.name} className="form-label">{props.title}</label>
-    <div className="checkbox">
-      {props.options.map(option => {
-        return (
-          <label key={option} className="checkbox-inline">
-            <input
-             
-              id = {props.name}
-              name={props.name}
-              onChange={props.handleChange}
-              value={option}
-              checked={ props.selectedOptions.indexOf(option) > -1 }
-              type="checkbox" /> {option}
-          </label>
-        );
-      })}
-    </div>
-  </div>
+const Checkbox = ({ type = 'checkbox', name, checked = false, onChange }) => (
+  <input type={type} name={name} checked={checked} onChange={onChange} />
 );
 
+Checkbox.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  checked: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
 }
 
-export default CheckBox;
+export default Checkbox;
