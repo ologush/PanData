@@ -9,6 +9,9 @@ var cors = require('cors');
 router.use(cors());
 
 
+const mapsApiUri = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
+const remainingUri = "&key=AIzaSyBstzccH5Mhbjpz6qR6tHipcb_U4CHgeSg";
+
 
 router.post('/', async function(req, res) {
 
@@ -21,7 +24,39 @@ router.post('/', async function(req, res) {
         useUnifiedTopology: true
       });
 
+      //May have to convert to JSON
       const data = req.body;
+
+      //This will have to be changed to match the data schema
+      const lat = data.latitude;
+      const long = data.longitude;
+      
+      const connectionUri = mapsApiUri + lat + "," + long + remainingUri;
+
+      const param = {
+        headers: {
+            "content-type":"application/json"
+        },
+        method:'POST'
+      }
+
+      fetch(connectionUri, param)
+      .then(res => {
+        res.json()
+        .then(data => {
+          if (data.status == "OK")
+          {
+            console.log(data.formatted_address);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
   
       const testDB = testClient.db("test");
       const collection = testDB.collection("devices");

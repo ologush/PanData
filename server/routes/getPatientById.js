@@ -4,6 +4,8 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://test_user:wordpass@cluster0-hskxu.azure.mongodb.net/test?retryWrites=true&w=majority";
 const assert = require('assert');
 
+
+
 var cors = require('cors');
 router.use(cors());
 
