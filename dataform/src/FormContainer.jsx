@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 
 
-import CheckBox from './components/CheckBox';  
+import Checkbox from './components/Checkbox';  
 import Input from './components/Input';  
 import TextArea from './components/TextArea';  
 import Select from './components/Select';
 import Button from './components/Button';
+import SymptomCheckboxes from './CheckboxContainer'
 
 // const MongoClient = require('mongodb').MongoClient;
 // var url = "mongodb://test_user:wordpass@cluster0-hskxu.azure.mongodb.net/test?retryWrites=true&w=majority"
@@ -24,19 +25,18 @@ class FormContainer extends Component {
 
         this.state = {
             newUser: {
-                
+                                
                 identifier: '',
                 location: '',
                 hospital: '',
                 symptoms: '',
                 date: '',
                 time: '',
-                gender: '',
-
-                geolocation: {
-                    latitude: '',
-                    longitude: ''
-                }
+                gender: ''
+            },
+            checkedItems: {
+                test1: "",
+                test2: ""
             },
 
             genderOptions: ['Male', 'Female']
@@ -47,14 +47,6 @@ class FormContainer extends Component {
     }
 
     handleFormSubmit(e) {
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        this.state.date = date;
-        //console.log(date);
-        this.state.time = time;
-        //console.log(time);
-
         e.preventDefault();
         let userData = JSON.stringify(this.state.newUser);
         console.log("form submitted");
@@ -108,7 +100,8 @@ class FormContainer extends Component {
         //         console.log("Successful" + data);
         //     })
         // })
-     }
+        this.handleClearForm(e)     
+    }
 
         
 
@@ -126,6 +119,10 @@ class FormContainer extends Component {
                 time: '',
                 gender: ''
             },
+            checkedItems: {
+                test1: "",
+                test2: ""
+            }
 
         })
 
@@ -145,14 +142,6 @@ class FormContainer extends Component {
         }, () => console.log(this.state.newUser)
         )
     }
-
-
-    /*getLocation() {
-        if (navigator.geolocation) {
-
-        }
-    } */
-    
 
     render() {
         return(
@@ -181,6 +170,9 @@ class FormContainer extends Component {
                     handleChange={this.handleInput}
                 
                 /> {/*Hospital*/}
+
+                <SymptomCheckboxes />
+
                 <Input type={'text'}
                     title={'Symptoms'}
                     name={'symptoms'}
@@ -225,4 +217,5 @@ class FormContainer extends Component {
 const buttonStyle = {
     margin: "10px 10px 10px 10px"
   };
-export default FormContainer;
+
+  export default FormContainer;
