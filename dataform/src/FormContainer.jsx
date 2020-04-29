@@ -34,10 +34,6 @@ class FormContainer extends Component {
                 time: '',
                 gender: ''
             },
-            checkedItems: {
-                test1: "",
-                test2: ""
-            },
 
             genderOptions: ['Male', 'Female']
         }
