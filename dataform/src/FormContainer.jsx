@@ -1,50 +1,103 @@
 import React, { Component } from 'react'
 
 
-import Checkbox from './components/Checkbox';  
+import Checkbox from './components/CheckBox';  
 import Input from './components/Input';  
 import TextArea from './components/TextArea';  
 import Select from './components/Select';
 import Button from './components/Button';
 import SymptomCheckboxes from './CheckboxContainer'
 
-// const MongoClient = require('mongodb').MongoClient;
-// var url = "mongodb://test_user:wordpass@cluster0-hskxu.azure.mongodb.net/test?retryWrites=true&w=majority"
-// const client = new MongoClient(url);
-// const assert = require('assert');
-
-// const httpRequest = new XMLHttpRequest();
-
 const url = "http://localhost:3001/senddata"
 
 
 
 class FormContainer extends Component {
+    
     constructor(props) {
         super(props);
 
+        
+
         this.state = {
-            newUser: {
-                                
-                identifier: '',
-                location: '',
-                hospital: '',
-                symptoms: '',
-                date: '',
-                time: '',
-                gender: ''
-            },
+
             
-            genderOptions: ['Male', 'Female']
+                                
+            identifier: '',
+            location: '',
+            hospital: '',
+            symptoms: '',
+            date: '',
+            time: '',
+            gender: '',
+            latitude: '',
+            longitude: ''
+
+
         }
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = JSON.stringify(position.coords.latitude);
+            const longitude = JSON.stringify(position.coords.longitude);
+
+            this.setState({
+                latitude: latitude,
+                longitude: longitude
+            });
+
+        }, error => console.log(error),
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
+        
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);  
         this.handleInput = this.handleInput.bind(this);
+        this.sendData = this.sendData.bind(this);
+        
     }
 
+    
+
     handleFormSubmit(e) {
+
+        var today = new Date();
+        const currentDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        const currentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const newState = "current date/time";
+
+
         e.preventDefault();
-        let userData = JSON.stringify(this.state.newUser);
+        //console.log("About to print latitude");
+        console.log(this.state.latitude);
+
+        this.setState({
+            time: currentTime,
+            date: currentDate
+        }, this.sendData);
+
+        // const dataToSubmit = this.state;
+        
+        
+
+        // let userData = JSON.stringify(dataToSubmit);
+        // console.log("form submitted");
+
+        // const param = {
+        //     headers: {
+        //         "content-type":"application/json"
+        //     },
+        //     body:userData,
+        //     method:"POST"
+        // }
+
+        // fetch(url,param)
+        // .then(res=>{console.log(res)})
+        // .catch(error=>{console.log(error)})
+     }
+
+     sendData() {
+
+        const dataToSubmit = this.state;
+
+        let userData = JSON.stringify(dataToSubmit);
         console.log("form submitted");
 
         const param = {
@@ -59,94 +112,56 @@ class FormContainer extends Component {
         .then(res=>{console.log(res)})
         .catch(error=>{console.log(error)})
 
-        // const options = {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(userData)
-
-        // };
-
-        // fetch('/post-feedback', options)
-        
-
-        // MongoClient.connect(url, function(err, client) {
-        //     assert.equal(null, err);
-        //     const db = client.db('test');
-        //     db.collection('testcollection').insertOne(userData);
-        //     client.close();
-        //   });
 
 
+     }
 
-        //This is for making AJAX requests to the server
-        //db.collection('testcollection').insertOne(userData);
-            
-        
-        // fetch('http://placeholder.com', {
-        //     method: "POST",
-        //     body: JSON.stringify(userData),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        // }).then(response => {
-        //     response.json().then(data =>{
-        //         console.log("Successful" + data);
-        //     })
-        // })
-        this.handleClearForm(e)     
-    }
 
         
-
-    
-
     handleClearForm(e) {
         e.preventDefault();
         this.setState({
-            newUser: {
-                identifier: '',
-                location: '',
-                hospital: '',
-                symptoms: '',
-                date: '',
-                time: '',
-                gender: ''
-            },
-            checkedItems: {
-                test1: "",
-                test2: ""
-            }
+
+            
+            identifier: '',
+            location: '',
+            hospital: '',
+            symptoms: '',
+            date: '',
+            time: '',
+            gender: '',
+            latitude: '',
+            longitude: ''      
 
         })
-
     }
 
     
-
     handleInput(e){
         let value = e.target.value;
         let name = e.target.name;
         this.setState( prevState => {
         return { 
-           newUser : {
-                    ...prevState.newUser, [name]: value
-                   }
+           
+            ...prevState, [name]: value
+            
             }
         }, () => console.log(this.state.newUser)
         )
     }
 
+
     render() {
+
+        const genderOptions = ["Male", "Female"];
+
         return(
             <form className="container" onSubmit={this.handleFormSubmit}>
                 
                 <Input type={'text'}
                         title={'patient identifier'}
                         name={'identifier'}
-                        value={this.state.newUser.identifier} 
+                        value={this.state.identifier} 
                         placeholder={'Enter an identifier'}
                         handleChange={this.handleInput}
                 /> {/*patient identifier*/}
@@ -154,14 +169,14 @@ class FormContainer extends Component {
                 <Input type={'text'}
                     title={'geographic location'}
                     name={'location'}
-                    value={this.state.newUser.location}
+                    value={this.state.location}
                     placeholder={'enter the location'}
                     handleChange={this.handleInput}
                 /> {/*geographic location*/}
                 <Input type={'text'}
                     title={'Hospital'}
                     name={'hospital'}
-                    value={this.state.newUser.hospital}
+                    value={this.state.hospital}
                     placeholder={'Enter a hospital'}
                     handleChange={this.handleInput}
                 
@@ -172,29 +187,29 @@ class FormContainer extends Component {
                 <Input type={'text'}
                     title={'Symptoms'}
                     name={'symptoms'}
-                    value={this.state.newUser.symptoms}
+                    value={this.state.symptoms}
                     placeholder={'Enter symptoms'}
                     handleChange={this.handleInput}
                 /> {/*Symptoms*/}
                 <Input type={'text'}
                     title={'Date'}
                     name={'date'}
-                    value={this.state.newUser.date}
+                    value={this.state.date}
                     placeholder={'Enter a date'}
                     handleChange={this.handleInput}
                 /> {/*date*/}
                 <Input 
                     title={'Time'}
                     name={'time'}
-                    value={this.state.newUser.time}
+                    value={this.state.time}
                     placeholder={'Enter a time'}
                     handleChange={this.handleInput}
                 /> {/*time*/}
 
                 <Select title={'gender'}
                         name={'gender'}
-                        options={this.state.genderOptions}
-                        value={this.state.newUser.gender}
+                        options={genderOptions}
+                        value={this.state.gender}
                         placeholder={'Select Gender'}
                         handleChange={this.handleInput}
 
