@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 
-import Checkbox from './components/Checkbox';  
+import Checkbox from './components/CheckBox';  
 import Input from './components/Input';  
 import TextArea from './components/TextArea';  
 import Select from './components/Select';
