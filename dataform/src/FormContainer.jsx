@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 
 
-import CheckBox from './components/CheckBox';  
+import Checkbox from './components/Checkbox';  
 import Input from './components/Input';  
 import TextArea from './components/TextArea';  
 import Select from './components/Select';
 import Button from './components/Button';
+import SymptomCheckboxes from './CheckboxContainer'
 
 const url = "http://localhost:3001/senddata"
 
@@ -19,6 +20,7 @@ class FormContainer extends Component {
         
 
         this.state = {
+
             
                                 
             identifier: '',
@@ -30,6 +32,7 @@ class FormContainer extends Component {
             gender: '',
             latitude: '',
             longitude: ''
+
 
         }
         navigator.geolocation.getCurrentPosition(position => {
@@ -54,10 +57,12 @@ class FormContainer extends Component {
     
 
     handleFormSubmit(e) {
+
         var today = new Date();
         const currentDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         const currentTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         const newState = "current date/time";
+
 
         e.preventDefault();
         //console.log("About to print latitude");
@@ -108,12 +113,15 @@ class FormContainer extends Component {
         .catch(error=>{console.log(error)})
 
 
+
      }
+
 
         
     handleClearForm(e) {
         e.preventDefault();
         this.setState({
+
             
             identifier: '',
             location: '',
@@ -124,6 +132,7 @@ class FormContainer extends Component {
             gender: '',
             latitude: '',
             longitude: ''      
+
         })
     }
 
@@ -141,7 +150,6 @@ class FormContainer extends Component {
         )
     }
 
-    
 
     render() {
 
@@ -173,6 +181,9 @@ class FormContainer extends Component {
                     handleChange={this.handleInput}
                 
                 /> {/*Hospital*/}
+
+                <SymptomCheckboxes />
+
                 <Input type={'text'}
                     title={'Symptoms'}
                     name={'symptoms'}
@@ -217,4 +228,5 @@ class FormContainer extends Component {
 const buttonStyle = {
     margin: "10px 10px 10px 10px"
   };
-export default FormContainer;
+
+  export default FormContainer;

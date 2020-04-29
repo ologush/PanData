@@ -23,6 +23,7 @@ class FindClient extends Component {
                 gender: '',
                 latitude: '',
                 longitude:''
+
             }
         }
         
@@ -86,6 +87,8 @@ class FindClient extends Component {
     }
 
     render() {
+
+
         const data = this.state.patient;
 
         return(
@@ -114,6 +117,7 @@ class FindClient extends Component {
                 <h1>Date: {data.date}</h1>
                 <h1>Time: {data.time}</h1>
                 <h1>Gender: {data.gender}</h1>
+
                 <h1>Latitude: {data.latitude}</h1>
                 <h1>Longitude: {data.longitude}</h1>
 
