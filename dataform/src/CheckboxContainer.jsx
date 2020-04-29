@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import checkboxes from './checkboxes';
+import checkboxes from './Checkboxes.js';
 import Checkbox from './components/CheckBox';
 
 class CheckboxContainer extends React.Component {
@@ -35,27 +35,5 @@ class CheckboxContainer extends React.Component {
     );
 }
 }
-const checkboxes = [
-    {
-        name: 'Cough',
-        key: 'Cough',
-        label: 'Cough',
-    },
-    {
-        name: 'Fever',
-        key: 'Fever',
-        label: 'Fever',
-    },
-    {
-        name: 'Difficulty Breathing',
-        key: 'Difficulty Breathing',
-        label: 'Difficulty Breathing',
-    },
-    {
-        name: 'Aches',
-        key: 'Aches',
-        label: 'Aches',
-    },
-    ];
 
     export default CheckboxContainer;
