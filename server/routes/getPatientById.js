@@ -10,7 +10,7 @@ var cors = require('cors');
 router.use(cors());
 
 router.post('/:id', async function(req, res){
-
+    
     let id = req.params.id;
 
     console.log("Requesting the information for patient" + id);

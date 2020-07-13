@@ -27,6 +27,8 @@ router.post('/', async function(req, res) {
       //May have to convert to JSON
       const data = req.body;
 
+      
+
       //This will have to be changed to match the data schema
       const lat = data.latitude;
 
@@ -44,10 +46,12 @@ router.post('/', async function(req, res) {
 
       fetch(connectionUri, param)
       .then(res => {
+        
         res.json()
         .then(data => {
           console.log("no error");
-          console.log(data.results);
+          console.log(JSON.stringify(data));
+          
         })
         .catch(err => {
           console.log(err);
@@ -75,7 +79,6 @@ router.post('/', async function(req, res) {
   }
 
 });
-
 
 
 router.get('/', function(req, res) {
